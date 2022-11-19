@@ -25,7 +25,7 @@ function App() {
                     style={{
                         backgroundImage: `url(${bgUrl})`,
                     }}
-                    className={`h-2/3 mt-10
+                    className={`h-2/3 mt-5
                         bg-no-repeat bg-center bg-cover
                         `}
                 >
@@ -56,15 +56,14 @@ function App() {
                 </Card>
                 <iframe
                     className={`
-                        relative w-full mt-10
-                        flex rounded-xl h-1/6 drop-shadow-lg
+                        relative w-full mt-5
+                        flex rounded-xl drop-shadow-lg
                         `}
-                    allow="autoplay"
                     scrolling="no"
                     frameborder="no"
-                    show_teaser="false"
+                    height='20'
                     src={
-                        'https://w.soundcloud.com/player/?url=https://soundcloud.com/nop2e4/shinratensei?auto_play=true&show_teaser=false&show_user=false&show_reposts=false'
+                        'https://w.soundcloud.com/player/?url=https://soundcloud.com/nop2e4/shinratensei&auto_play=true&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false&visual=true'
                     }
                 ></iframe>
             </div>
