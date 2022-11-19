@@ -27,7 +27,7 @@ function App() {
                     style={{
                         backgroundImage: `url(${bgUrl})`,
                     }}
-                    className={`h-2/3 mt-5
+                    className={`h-2/3 mt-5 rounded-t-[1.5rem]
                         bg-no-repeat bg-center bg-cover
                         `}
                 >
@@ -58,32 +58,22 @@ function App() {
                 </Card>
                 <SoundCloud
                     className={`
-                h-1/6 mt-4 select-none	
+                h-1/6 my-8 select-none	
                 `}
                 />
-                <SoundCloud
+                <Card
                     className={`
-                h-1/6 mt-4 select-none	
+                    h-1/6 my-8
                 `}
                 />
-                <SoundCloud
+                <Card
                     className={`
-                h-1/6 mt-4 select-none	
+                    h-1/6 my-8
                 `}
                 />
-                <SoundCloud
+                <Card
                     className={`
-                h-1/6 mt-4 select-none	
-                `}
-                />
-                <SoundCloud
-                    className={`
-                h-1/6 mt-4 select-none	
-                `}
-                />
-                <SoundCloud
-                    className={`
-                h-1/6 mt-4 mb-10
+                    h-1/6 my-8
                 `}
                 />
             </div>
