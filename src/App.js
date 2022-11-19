@@ -1,15 +1,9 @@
 import { useState, useEffect } from 'react';
 import Card from './components/Card/Card';
+import SoundCloud from './components/SoundCloud/SoundCloud';
 
 function App() {
     const [bgUrl, setBgUrl] = useState('/img/bgne3.jpg');
-
-    useEffect(() => {
-        const widgetIframe =
-            document.getElementById('sc-widget');
-        const widgetSC = window.SC.Widget(widgetIframe);
-        console.log('widgetSC', window.SC);
-    }, []);
 
     return (
         <>
@@ -23,12 +17,12 @@ function App() {
             >
                 <div
                     className={`
-                        absolute h-screen w-full top-0 left-0
+                        fixed h-screen w-full top-0 left-0 right-0
                         opacity-30
                         bg-gradient-to-r from-purple-800 via-violet-900 to-purple-800
                         `}
                 ></div>
-                <div className="absolute left-0 w-screen h-full flex flex-col justify-center items-center backdrop-blur-sm"></div>
+                <div className="fixed left-0 w-screen h-screen flex flex-col justify-center items-center backdrop-blur-sm"></div>
                 <Card
                     style={{
                         backgroundImage: `url(${bgUrl})`,
@@ -62,22 +56,36 @@ function App() {
                         </h2>
                     </div>
                 </Card>
-
-                <iframe
-                    id="sc-widget"
-                    title='iframe soundcloud ne'
+                <SoundCloud
                     className={`
-                        relative w-full mt-5
-                        flex rounded-xl h-1/6 drop-shadow-lg
-                        `}
-                    allow="autoplay"
-                    scrolling="no"
-                    frameBorder="no"
-                    src={
-                        'https://w.soundcloud.com/player/?url=https://soundcloud.com/nop2e4/shinratensei&auto_play=true&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false&visual=true'
-                    }
-                ></iframe>
-
+                h-1/6 mt-4
+                `}
+                />
+                <SoundCloud
+                    className={`
+                h-1/6 mt-4
+                `}
+                />
+                <SoundCloud
+                    className={`
+                h-1/6 mt-4
+                `}
+                />
+                <SoundCloud
+                    className={`
+                h-1/6 mt-4
+                `}
+                />
+                <SoundCloud
+                    className={`
+                h-1/6 mt-4
+                `}
+                />
+                <SoundCloud
+                    className={`
+                h-1/6 mt-4 mb-10
+                `}
+                />
             </div>
         </>
     );
