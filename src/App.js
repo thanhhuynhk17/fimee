@@ -1,8 +1,16 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Card from './components/Card/Card';
 
 function App() {
     const [bgUrl, setBgUrl] = useState('/img/bgne3.jpg');
+
+    useEffect(() => {
+        const widgetIframe =
+            document.getElementById('sc-widget');
+        const widgetSC = window.SC.Widget(widgetIframe);
+        console.log('widgetSC', window.SC);
+    }, []);
+
     return (
         <>
             <div
@@ -54,18 +62,22 @@ function App() {
                         </h2>
                     </div>
                 </Card>
+
                 <iframe
+                    id="sc-widget"
+                    title='iframe soundcloud ne'
                     className={`
                         relative w-full mt-5
-                        flex rounded-xl drop-shadow-lg
+                        flex rounded-xl h-1/6 drop-shadow-lg
                         `}
+                    allow="autoplay"
                     scrolling="no"
-                    frameborder="no"
-                    height='20'
+                    frameBorder="no"
                     src={
                         'https://w.soundcloud.com/player/?url=https://soundcloud.com/nop2e4/shinratensei&auto_play=true&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false&visual=true'
                     }
                 ></iframe>
+
             </div>
         </>
     );
