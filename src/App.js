@@ -17,12 +17,13 @@ function App() {
             >
                 <div
                     className={`
-                        fixed h-screen w-full top-0 left-0 right-0
+                        fixed h-screen w-full top-0 left-0 right-0 select-none	
                         opacity-30
                         bg-gradient-to-r from-purple-800 via-violet-900 to-purple-800
                         `}
                 ></div>
-                <div className="fixed left-0 w-screen h-screen flex flex-col justify-center items-center backdrop-blur-sm"></div>
+                <div className={`fixed left-0 w-screen h-screen select-none	
+                flex flex-col justify-center items-center backdrop-blur-sm`}></div>
                 <Card
                     style={{
                         backgroundImage: `url(${bgUrl})`,
@@ -58,7 +59,7 @@ function App() {
                 </Card>
                 <SoundCloud
                     className={`
-                h-1/6 my-8 select-none	
+                h-1/6 my-8
                 `}
                 />
                 <Card
