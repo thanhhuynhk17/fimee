@@ -58,27 +58,27 @@ function App() {
                 </Card>
                 <SoundCloud
                     className={`
-                h-1/6 mt-4
+                h-1/6 mt-4 select-none	
                 `}
                 />
                 <SoundCloud
                     className={`
-                h-1/6 mt-4
+                h-1/6 mt-4 select-none	
                 `}
                 />
                 <SoundCloud
                     className={`
-                h-1/6 mt-4
+                h-1/6 mt-4 select-none	
                 `}
                 />
                 <SoundCloud
                     className={`
-                h-1/6 mt-4
+                h-1/6 mt-4 select-none	
                 `}
                 />
                 <SoundCloud
                     className={`
-                h-1/6 mt-4
+                h-1/6 mt-4 select-none	
                 `}
                 />
                 <SoundCloud
