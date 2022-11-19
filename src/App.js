@@ -10,7 +10,7 @@ function App() {
                 className={`font-opensans h-screen w-screen
                 overflow-y-auto overflow-x-hidden scroll-smooth
                 bg-cover bg-center
-                px-10
+                px-5
                 `}
             >
                 <div
@@ -57,14 +57,14 @@ function App() {
                 <iframe
                     className={`
                         relative w-full mt-10
-                        flex rounded-xl h-[82px] drop-shadow-lg
+                        flex rounded-xl h-[90px] drop-shadow-lg
                         `}
                     allow="autoplay"
                     scrolling="no"
                     frameborder="no"
                     show_teaser="false"
                     src={
-                        'https://w.soundcloud.com/player/?url=https://soundcloud.com/nop2e4/shinratensei?utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing&show_teaser=false&show_user=false&show_reposts=false'
+                        'https://w.soundcloud.com/player/?url=https://soundcloud.com/nop2e4/shinratensei?utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing&auto_play=true&show_teaser=false&show_user=false&show_reposts=false'
                     }
                 ></iframe>
             </div>
