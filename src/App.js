@@ -3,7 +3,7 @@ import Card from './components/Card/Card';
 import SoundCloud from './components/SoundCloud/SoundCloud';
 
 function App() {
-    const [bgUrl, setBgUrl] = useState('/img/bgne.jpg');
+    const [bgUrl, setBgUrl] = useState('/img/bgne3.jpg');
 
     return (
         <>
