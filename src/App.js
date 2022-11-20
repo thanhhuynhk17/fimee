@@ -3,7 +3,7 @@ import Card from './components/Card/Card';
 import SoundCloud from './components/SoundCloud/SoundCloud';
 
 function App() {
-    const [bgUrl, setBgUrl] = useState('/img/bgne3.jpg');
+    const [bgUrl, setBgUrl] = useState('/img/bgne.jpg');
 
     return (
         <>
@@ -17,7 +17,7 @@ function App() {
                 className={`
                         fixed h-screen w-screen top-0 left-0 right-0
                         opacity-30
-                        bg-gradient-to-r from-purple-800 via-violet-900 to-purple-800
+                        bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900
                         `}
             ></div>
             <div
@@ -35,28 +35,28 @@ function App() {
                         backgroundImage: `url(${bgUrl})`,
                     }}
                     className={`h-[30rem] rounded-t-[1.5rem]
-                        bg-no-repeat bg-center bg-cover
+                        bg-no-repeat bg-center bg-cover p-0
                         `}
                 >
                     {/* top overlay */}
-                    <div
+                    {/* <div
                         className={`
                         absolute h-1/6 w-full top-0 left-0 p-4 rounded-t-[1.5rem]
-                        bg-gradient-to-b from-violet-900 opacity-80
+                        bg-gradient-to-b from-purple-900 opacity-80
                     `}
-                    ></div>
+                    ></div> */}
                     <div
                         className={`
-                        absolute h-1/3 w-full bottom-0 left-0 p-4 rounded-b-md
-                        bg-gradient-to-t from-violet-900
+                        absolute h-1/2 w-full bottom-0 left-0 p-4 rounded-b-md
+                        bg-gradient-to-t from-slate-900
                         flex items-end
                     `}
                     >
                         <h2
                             className={`font-bold text-3xl text-transparent
-                        bg-clip-text
-                        bg-gradient-to-r from-indigo-400 to-purple-400
-                        drop-shadow-[2rem] shadow-white
+                        bg-clip-text 
+                        bg-gradient-to-r from-slate-200 to-slate-300
+                        drop-shadow-lg
                         `}
                         >
                             Huỳnh Tấn Thành
