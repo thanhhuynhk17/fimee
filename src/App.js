@@ -10,7 +10,7 @@ function App() {
             <div
                 style={{ backgroundImage: `url(${bgUrl})` }}
                 className={`font-opensans h-screen w-screen
-                overflow-y-auto overflow-x-hidden scroll-smooth
+                touch-pan-y overflow-x-hidden overflow-y-auto scroll-smooth
                 bg-cover bg-center
                 px-5
                 `}
