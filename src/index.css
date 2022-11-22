@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.react-player__preview, iframe{
+	border-radius: 0.5rem;
+}

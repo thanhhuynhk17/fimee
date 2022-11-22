@@ -1,9 +1,21 @@
 import { useState, useEffect } from 'react';
 import Card from './components/Card/Card';
-import SoundCloud from './components/SoundCloud/SoundCloud';
+import ReactPlayer from 'react-player/soundcloud';
+
+const SC_options = {
+    // default values displayed
+    auto_play: true,
+    hide_related: true,
+    show_comments: true,
+    show_artwork: true,
+    show_user: true,
+    show_reposts: true,
+    show_teaser: false,
+    visual: true,
+};
 
 function App() {
-    const [bgUrl, setBgUrl] = useState('/img/bgne3.jpg');
+    const [bgUrl, setBgUrl] = useState('/img/bgne.jpg');
 
     return (
         <>
@@ -16,7 +28,7 @@ function App() {
             <div
                 className={`
                         fixed h-screen w-screen top-0 left-0 right-0
-                        opacity-30
+                        opacity-20
                         bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900
                         `}
             ></div>
@@ -45,6 +57,8 @@ function App() {
                         bg-gradient-to-b from-purple-900 opacity-80
                     `}
                     ></div> */}
+
+                    {/* bottom-top overlay */}
                     <div
                         className={`
                         absolute h-1/2 w-full bottom-0 left-0 p-4 rounded-b-md
@@ -63,17 +77,15 @@ function App() {
                         </h2>
                     </div>
                 </Card>
-                <SoundCloud
-                    className={`
-                h-[8rem] my-20
-                `}
-                />
+
+
                 <Card
                     className={`
                 h-[8rem] my-20
                 `}
                 />
-                <Card
+                
+                {/* <Card
                     className={`
                 h-[8rem] my-20
                 `}
@@ -82,7 +94,31 @@ function App() {
                     className={`
                 h-[8rem] mt-8
                 `}
-                />
+                /> */}
+
+                <Card
+                    className={`
+                w-full aspect-square
+                my-20 px-0 py-0 
+                `}
+                >
+                    <ReactPlayer
+                        style={{
+                            borderRadius: '0.5rem',
+                        }}
+                        width={'100%'}
+                        height={'100%'}
+                        light={true}
+                        playing={true}
+                        url="https://soundcloud.com/hoanglongnger/khong-ten-1"
+                        config={{
+                            soundcloud: {
+                                options: SC_options,
+                            },
+                        }}
+                        className={'rounded-lg '}
+                    />
+                </Card>
             </div>
         </>
     );
