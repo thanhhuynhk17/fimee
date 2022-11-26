@@ -49,86 +49,84 @@ function TiktokCard({ className, tiktokId }) {
     }, [id]);
 
     return (
-        <>
-            {user !== undefined && (
-                <Card
-                    className={`
+        <Card
+            className={`
 				bg-black
 				drop-shadow-[-4px_-0px_1px_#28ffff]
 				shadow-[4px_1px_1px_#fe2d52]
 				text-slate-200
 				${className}
 			`}
+        >
+            {user !== undefined && (
+                <div
+                    className={`
+			h-full w-full
+			flex flex-col items-start
+		`}
                 >
+                    {/* user name */}
+                    <span className="text-[0.75rem] mb-1">
+                        @{user.id}
+                    </span>
+                    {/* user info */}
                     <div
                         className={`
-						h-full w-full
-						flex flex-col items-start
-					`}
+					w-full
+					grow flex flex-row items-center
+				`}
                     >
-                        {/* user name */}
-                        <span className="text-[0.75rem]">
-                            @{user.id}
-                        </span>
-                        {/* user info */}
+                        {/* avatar */}
+                        <img
+                            className={`
+					w-1/4 aspect-square max-h-[5rem] object-cover
+					rounded-full ring-4 ring-slate-900
+				`}
+                            src={`${user.avatarUrl}`}
+                            alt="avatar"
+                        />
+                        {/* info */}
                         <div
                             className={`
-								w-full
-								grow flex flex-row items-center
-							`}
+					h-full
+					grow flex items-center justify-evenly
+				`}
                         >
-                            {/* avatar */}
-                            <img
-                                className={`
-								w-1/4 aspect-square max-h-[5rem] object-cover
-								rounded-full ring-4 ring-slate-900
-							`}
-                                src={`${user.avatarUrl}`}
-                                alt="avatar"
-                            />
-                            {/* info */}
                             <div
-                                className={`
-								h-full
-								grow flex items-center justify-evenly
-							`}
+                                className={`text-center text-sm leading-[1rem]`}
                             >
-                                <div
-                                    className={`text-center text-sm leading-[1rem]`}
-                                >
-                                    <p className="font-bold">
-                                        {user.following}
-                                    </p>
-                                    <p className="font-light text-[0.75rem]">
-                                        Following
-                                    </p>
-                                </div>
-                                <div
-                                    className={`text-center text-sm leading-[1rem]`}
-                                >
-                                    <p className="font-bold">
-                                        {user.follower}
-                                    </p>
-                                    <p className="font-light text-[0.75rem]">
-                                        Followers
-                                    </p>
-                                </div>
-                                <div
-                                    className={`text-center text-sm leading-[1rem]`}
-                                >
-                                    <p className="font-bold">
-                                        {user.like}
-                                    </p>
-                                    <p className="font-light text-[0.75rem]">
-                                        Likes
-                                    </p>
-                                </div>
+                                <p className="font-bold">
+                                    {user.following}
+                                </p>
+                                <p className="font-light text-[0.75rem]">
+                                    Following
+                                </p>
+                            </div>
+                            <div
+                                className={`text-center text-sm leading-[1rem]`}
+                            >
+                                <p className="font-bold">
+                                    {user.follower}
+                                </p>
+                                <p className="font-light text-[0.75rem]">
+                                    Followers
+                                </p>
+                            </div>
+                            <div
+                                className={`text-center text-sm leading-[1rem]`}
+                            >
+                                <p className="font-bold">
+                                    {user.like}
+                                </p>
+                                <p className="font-light text-[0.75rem]">
+                                    Likes
+                                </p>
                             </div>
                         </div>
                     </div>
-                </Card>
+                </div>
             )}
-        </>
+        </Card>
     );
 }
 
