@@ -4,9 +4,9 @@ export async function fetchInfo(endpoint, id) {
     // fetch data
     const response = await fetch(url, {
         method: 'GET',
-        mode: 'cors',
         headers: {
             'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'
         },
     });
     const data = await response.json();
