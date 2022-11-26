@@ -46,12 +46,12 @@ function UserProfile() {
                     console.log(resData);
                     const user = new FimeeUser(
                         resData.id,
-                        resData.name,
-                        resData.bgUrl,
-                        resData.igId,
-                        resData.tiktokId,
-                        resData.fbUrl,
-                        resData.soundcloudUrl
+                        resData['Họ và tên'],
+                        resData['Ảnh nền'],
+                        resData['Tài khoản instagram'],
+                        resData['Tài khoản tiktok'],
+                        resData['Link facebook'],
+                        resData['Link một bài hát từ soundcloud']
                     );
                     setFimeeUser(user);
                 }
@@ -140,7 +140,7 @@ function UserProfile() {
                         {/* instagram */}
                         <Card
                             className={`
-                            h-[8rem] my-20 p-[5px]
+                            h-[8rem] my-20 p-[4px]
                             bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))]
                             from-[#fcb045] via-[#fd1d1d] to-[#833ab4] 
                         `}
@@ -157,10 +157,15 @@ function UserProfile() {
 
                         {/* tiktok */}
                         <TiktokCard
+                            tiktokId={
+                                fimeeUser.tiktokId !== ''
+                                    ? fimeeUser.tiktokId
+                                    : ''
+                            }
                             className={`
                             h-[8rem] my-20
-                        `}/
-                        >
+                        `}
+                        />
 
                         {/* facebook */}
                         {/* <Card
