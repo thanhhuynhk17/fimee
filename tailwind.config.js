@@ -5,9 +5,9 @@ module.exports = {
     theme: {
         extend: {
             darkMode: 'class',
-            colors: {
-                mypurple: '#3a6186',
-                myblue: '#89253e',
+            dropShadow: {
+                tikBlue: '',
+                tikRed: '',
             },
             fontFamily: {
                 opensans: ['Open Sans'],

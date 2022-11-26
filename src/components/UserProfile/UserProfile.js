@@ -3,8 +3,9 @@ import ReactPlayer from 'react-player/soundcloud';
 import { useParams } from 'react-router-dom';
 import Papa from 'papaparse';
 
-import FimeeUser from './FimeeUser';
+import FimeeUser from '../../helpers/FimeeUser';
 import Card from './../Card/Card';
+import TiktokCard from '../TiktokCard/TiktokCard';
 
 // sswjPCpuDKgz9cXAvtpTag==
 
@@ -24,10 +25,6 @@ function UserProfile() {
     let { id } = useParams();
     const [userId, setUserId] = useState(id);
     const [fimeeUser, setFimeeUser] = useState(undefined);
-
-    const [bgUrl, setBgUrl] = useState(
-        `https://drive.google.com/uc?export=view&id=1Y_PKzF8FGYHFY65NRlBnw3wsBjtGQD3U`
-    );
 
     useEffect(() => {
         if (userId === undefined) {
@@ -80,25 +77,29 @@ function UserProfile() {
                             backgroundImage: `url(${fimeeUser.bgUrl})`,
                         }}
                         className={`fixed h-screen w-screen
-			bg-cover bg-center
-			`}
-                    ></div>
+                            bg-cover bg-center
+                        `}
+                    />
                     <div
                         className={`
-					fixed h-screen w-screen top-0 left-0 right-0
-					opacity-50
-					bg-gradient-to-br from-slate-900 via-slate-700 to-slate-900
+                        fixed h-screen w-screen top-0 left-0 right-0
+                        opacity-70
+                        bg-gradient-to-br from-slate-900 via-slate-700 to-slate-900
 					`}
-                    ></div>
+                    />
                     <div
                         className={`fixed left-0 w-screen h-screen
-			flex flex-col justify-center items-center backdrop-blur-md`}
-                    ></div>
+                            flex flex-col justify-center items-center
+                            backdrop-blur-sm
+                        `}
+                    />
+
+                    {/* CONTENT */}
                     <div
                         className={`font-opensans h-max w-full
-			touch-pan-y overflow-x-hidden overflow-y-auto scroll-smooth
-			py-20 px-5
-			`}
+                            touch-pan-y overflow-x-hidden overflow-y-auto scroll-smooth
+                            py-20 px-10
+                        `}
                     >
                         <Card
                             style={{
@@ -136,32 +137,44 @@ function UserProfile() {
                             </div>
                         </Card>
 
+                        {/* instagram */}
                         <Card
                             className={`
-			h-[8rem] my-20
-			`}
+                            h-[8rem] my-20 p-[5px]
+                            bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))]
+                            from-[#fcb045] via-[#fd1d1d] to-[#833ab4] 
+                        `}
                         >
-							ig: {fimeeUser.igId}
-						</Card>
+                            <Card
+                                className={
+                                    'h-full w-full rounded-md'
+                                }
+                            >
+                                <p>Hello world</p>
+                                <p>Hello world</p>
+                            </Card>
+                        </Card>
 
-                        <Card
+                        {/* tiktok */}
+                        <TiktokCard
                             className={`
-			h-[8rem] my-20
-			`}
+                            h-[8rem] my-20
+                        `}/
                         >
-						tiktok: {fimeeUser.tiktokId}
-						</Card>
+
+                        {/* facebook */}
                         {/* <Card
-				className={`
-			h-[8rem] mt-8
-			`}
-			/> */}
+                            className={`
+                            h-[8rem] mt-8
+                        `}
+                        /> */}
 
+                        {/* soundcloud */}
                         <Card
                             className={`
-			w-full aspect-square
-			my-20 px-0 py-0 
-			`}
+                            w-full aspect-square
+                            my-20 px-0 py-0 
+                        `}
                         >
                             <ReactPlayer
                                 style={{
@@ -171,7 +184,9 @@ function UserProfile() {
                                 height={'100%'}
                                 light={true}
                                 playing={true}
-                                url={fimeeUser.soundcloudUrl}
+                                url={
+                                    fimeeUser.soundcloudUrl
+                                }
                                 config={{
                                     soundcloud: {
                                         options: SC_options,
