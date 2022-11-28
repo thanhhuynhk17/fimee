@@ -19,7 +19,7 @@ function TiktokCard({ className, tiktokId }) {
 
         // define async function to fetch data
         async function SetIdAsync() {
-            const endpoint = `https://tiktok.livecounts.io/user/search`;
+            const endpoint = `http://localhost:8010/proxy`;
             const data = await fetchInfo(endpoint, id);
             // set Data
             if (data.success !== true) {

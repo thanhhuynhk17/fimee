@@ -3,6 +3,7 @@ export async function fetchInfo(endpoint, id) {
 
     // fetch data
     const response = await fetch(url, {
+        mode:'cors',
         method: 'GET',
         headers: {
             'Access-Control-Allow-Origin': '*',

@@ -19,7 +19,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "dev": "vite",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "proxy": "lcp --proxyUrl https://tiktok.livecounts.io/user/search"
   },
   "eslintConfig": {
     "extends": [
