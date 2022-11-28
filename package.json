@@ -16,7 +16,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "react-scripts start | lcp --proxyUrl https://tiktok.livecounts.io/user/search",
     "build": "react-scripts build",
     "dev": "vite",
     "eject": "react-scripts eject",
