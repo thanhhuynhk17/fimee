@@ -16,7 +16,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build & npm run proxy",
+    "build": "react-scripts build",
     "dev": "vite",
     "eject": "react-scripts eject",
     "proxy": "lcp --proxyUrl https://tiktok.livecounts.io/user"
