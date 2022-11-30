@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import Card from '../Card/Card';
 import TiktokUser from '../../helpers/TiktokUser';
 import { fetchInfo } from '../../helpers/fetchUser';
-// https://i.instagram.com/api/v1/users/web_profile_info/?username=tn.thnh
 
 function TiktokCard({ className, tiktokId }) {
     const [id, setId] = useState(tiktokId);
@@ -19,28 +18,30 @@ function TiktokCard({ className, tiktokId }) {
 
         // define async function to fetch data
         async function SetIdAsync() {
-            const endpoint = `/search`;
-            const data = await fetchInfo(endpoint, id);
-            // set Data
-            if (data.success !== true) {
-                return;
+            const endpoint = `https://scrapsocialmedia.azurewebsites.net/api/scrapsocialmedia`;
+            const param = {
+                key: 'tiktok_name',
+                value: id
             }
-            let userById = data.userData.filter(
-                (item) => item.id === id
-            );
-            if (userById.length === 0) {
+            let data = await fetchInfo(endpoint, param);
+            // // set Data
+            // if (data.success !== true) {
+            //     return;
+            // }
+
+            if (Object.keys(data).length === 0) {
                 // didn't found user
                 return;
             }
-            userById = userById[0];
+            data = data['tiktok_profile'];
             // set tiktok info
             tiktokUser.setInfo(
-                userById.id,
-                userById.username,
-                userById.avatar,
-                userById.stats.following,
-                userById.stats.followers,
-                userById.stats.likes
+                data.name_id,
+                data.username,
+                data.avatar_url,
+                data.following,
+                data.followers,
+                data.likes
             );
             setUser(tiktokUser);
         }
