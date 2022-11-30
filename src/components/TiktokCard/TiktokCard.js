@@ -66,15 +66,15 @@ function TiktokCard({ className, tiktokId }) {
                     avatar={user.avatar_url}
                     insights={[
                         {
-                            key: 'followers',
-                            value: user.followers,
-                        },
-                        {
-                            key: 'following',
+                            key: 'Following',
                             value: user.following,
                         },
                         {
-                            key: 'likes',
+                            key: 'Followers',
+                            value: user.followers,
+                        },
+                        {
+                            key: 'Likes',
                             value: user.likes,
                         },
                     ]}
