@@ -1,27 +1,27 @@
-class TiktokUser {
+class IgUser {
     constructor() {
         this.id = '';
-        this.name_id = '';
-        this.avatar_url = '';
+        this.name = '';
+        this.avatarUrl = '';
         this.following = -1;
         this.followers = -1;
-        this.likes = -1;
+        this.posts = -1;
     }
 
     setInfo(
         id,
-        name_id,
-        avatar_url,
+        name,
+        avatarUrl,
         following,
         followers,
-        likes
+        posts
     ) {
         this.id = id;
-        this.name_id = name_id;
-        this.avatar_url = avatar_url;
+        this.name = name;
+        this.avatarUrl = avatarUrl;
         this.following = following;
         this.followers = followers;
-        this.likes = likes;
+        this.posts = posts;
     }
 
     log() {
@@ -31,4 +31,4 @@ class TiktokUser {
     }
 }
 
-export default TiktokUser;
+export default IgUser;

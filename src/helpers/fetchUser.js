@@ -7,11 +7,9 @@ export async function fetchInfo(endpoint, param) {
         method: 'GET',
         headers: {
             'x-functions-key':process.env.REACT_APP_X_FUNCTIONS_KEY,
-            "Access-Control-Allow-Headers" : "Origin, Content-Type, Accept",
-            'Access-Control-Allow-Origin':'*'
+            'Content-Type': 'application/json',
         },
     });
     const data = await response.json();
-    console.log('data', data);
     return data;
 }

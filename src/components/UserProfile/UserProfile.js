@@ -6,6 +6,7 @@ import Papa from 'papaparse';
 import FimeeUser from '../../helpers/FimeeUser';
 import Card from './../Card/Card';
 import TiktokCard from '../TiktokCard/TiktokCard';
+import IgCard from '../IgCard/IgCard';
 
 // sswjPCpuDKgz9cXAvtpTag==
 
@@ -43,7 +44,6 @@ function UserProfile() {
                 } else {
                     console.log('id valid');
                     const resData = results.data[0];
-                    console.log(resData);
                     const user = new FimeeUser(
                         resData.id,
                         resData['Họ và tên'],
@@ -51,7 +51,9 @@ function UserProfile() {
                         resData['Tài khoản instagram'],
                         resData['Tài khoản tiktok'],
                         resData['Link facebook'],
-                        resData['Link một bài hát từ soundcloud']
+                        resData[
+                            'Link một bài hát từ soundcloud'
+                        ]
                     );
                     setFimeeUser(user);
                 }
@@ -65,7 +67,6 @@ function UserProfile() {
             console.log('fimeeUser undefined');
             return;
         }
-        fimeeUser.log();
     }, [fimeeUser]);
 
     return (
@@ -138,22 +139,13 @@ function UserProfile() {
                         </Card>
 
                         {/* instagram */}
-                        <Card
-                            className={`
-                            h-[8rem] my-20 p-[4px]
-                            bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))]
-                            from-[#fcb045] via-[#fd1d1d] to-[#833ab4] 
-                        `}
-                        >
-                            <Card
-                                className={
-                                    'h-full w-full rounded-md'
-                                }
-                            >
-                                <p>Hello world</p>
-                                <p>Hello world</p>
-                            </Card>
-                        </Card>
+                        <IgCard
+                            igId={
+                                fimeeUser.igId !== ''
+                                    ? fimeeUser.igId
+                                    : ''
+                            }
+                        />
 
                         {/* tiktok */}
                         <TiktokCard
@@ -187,7 +179,7 @@ function UserProfile() {
                                 }}
                                 width={'100%'}
                                 height={'100%'}
-                                light={true}
+                                // light={true}
                                 playing={true}
                                 url={
                                     fimeeUser.soundcloudUrl

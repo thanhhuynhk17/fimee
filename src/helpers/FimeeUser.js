@@ -21,10 +21,9 @@ class FimeeUser {
     }
 
     log() {
-		console.log('logging...');
+        console.log('[Start] logging');
         console.log(JSON.stringify(this));
-		console.log('logging end');
-
+        console.log('[End] logging');
     }
 }
 
