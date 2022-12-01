@@ -30,7 +30,7 @@ export default function UserInfoTemplate({
                 shadow-xl bg-white
                 rounded-full ring-2 
                 ${type==='ig'?'ring-purple-500/50':'ring-slate-200'}
-                animate-pulse hover:animate-ping
+                animate-pulse hover:animate-ping visited:animate-pulse
                 `}
                 />
                 
