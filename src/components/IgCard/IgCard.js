@@ -35,10 +35,9 @@ function IgCard({ className, igId }) {
                 return;
             }
             data = data['ig_profile'];
-            console.log(data);
             // set ig info
             igUser.setInfo(
-				data.ig_id,
+                data.ig_id,
                 data.name_id,
                 data.avatar_url,
                 data.following,
@@ -46,12 +45,12 @@ function IgCard({ className, igId }) {
                 data.posts
             );
 
-			// this.id = '';
-			// this.name = '';
-			// this.avatar_url = '';
-			// this.following = -1;
-			// this.followers = -1;
-			// this.post = -1;
+            // this.id = '';
+            // this.name = '';
+            // this.avatar_url = '';
+            // this.following = -1;
+            // this.followers = -1;
+            // this.post = -1;
             setUser(igUser);
         }
         // call async function
@@ -59,36 +58,36 @@ function IgCard({ className, igId }) {
     }, [id]);
 
     return (
-        <Card
-            className={`
-		h-[8rem] my-20 p-[4px]
-		bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))]
-		from-[#fcb045] via-[#fd1d1d] to-[#833ab4] 
-	`}
-        >
-            <Card className={'h-full w-full rounded-md'}>
-                {
-					user !== undefined && (
-						<UserInfoTemplate name={user.name_id} avatar={user.avatar_url}
-							insights={[
-								{
-									key:'Posts',
-									value:user.posts
-								},
-								{
-									key:'Followers',
-									value:user.followers
-								},
-								{
-									key:'Following',
-									value:user.following
-								},
-							]}
-                            profile_url={`https://www.instagram.com/${user.name_id}`}
-                            />
-					)
-				}
-            </Card>
+            //         className={`
+        // 	h-[8rem] my-20
+        // 	bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))]
+        // 	from-[#fcb045] via-[#fd1d1d] to-[#833ab4] 
+        // `}
+        <Card className={`
+                ${className}
+            `}>
+            {user !== undefined && (
+                <UserInfoTemplate
+                    name={user.name_id}
+                    type={'ig'}
+                    avatar={user.avatar_url}
+                    insights={[
+                        {
+                            key: 'Posts',
+                            value: user.posts,
+                        },
+                        {
+                            key: 'Followers',
+                            value: user.followers,
+                        },
+                        {
+                            key: 'Following',
+                            value: user.following,
+                        },
+                    ]}
+                    profile_url={`https://www.instagram.com/${user.name_id}`}
+                />
+            )}
         </Card>
     );
 }

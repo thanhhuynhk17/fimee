@@ -53,15 +53,14 @@ function TiktokCard({ className, tiktokId }) {
     return (
         <Card
             className={`
-				bg-black
-				drop-shadow-[-4px_-0px_1px_#28ffff]
-				shadow-[4px_1px_1px_#fe2d52]
+				bg-slate-900
 				text-slate-200
 				${className}
 			`}
         >
             {user !== undefined && (
                 <UserInfoTemplate
+                    type={'tiktok'}
                     name={user.name_id}
                     avatar={user.avatar_url}
                     insights={[

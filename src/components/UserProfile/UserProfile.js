@@ -145,6 +145,9 @@ function UserProfile() {
                                     ? fimeeUser.igId
                                     : ''
                             }
+                            className={`
+                                h-[8rem] my-20
+                            `}
                         />
 
                         {/* tiktok */}
@@ -155,8 +158,8 @@ function UserProfile() {
                                     : ''
                             }
                             className={`
-                            h-[8rem] my-20
-                        `}
+                                h-[8rem] my-20
+                            `}
                         />
 
                         {/* facebook */}
