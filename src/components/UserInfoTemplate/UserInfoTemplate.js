@@ -1,7 +1,11 @@
+import { SocialIcon } from "react-social-icons";
+
+
 export default function UserInfoTemplate({
     name,
     avatar,
     insights,
+    profile_url
 }) {
     return (
         <div
@@ -10,10 +14,26 @@ export default function UserInfoTemplate({
 			flex flex-col items-start
 		`}
         >
-            {/* user name */}
-            <span className="text-[0.75rem] mb-1">
-                {`@${name}`}
-            </span>
+            {/* user link */}
+            <div className={`
+                mb-1 w-full h-1/4
+                flex justify-between items-center
+            `}>
+                <span className="text-[0.75rem] underline decoration-indigo-500">
+                    {`@${name}`}
+                </span>
+                {/* social media icon */}
+                <SocialIcon url={profile_url} 
+                style={{width:'undefined', height:'100%', aspectRatio:1}}
+                className={` aspect-square
+                rounded-full ring-2 ring-slate-200
+                shadow-lg
+                bg-white
+                animate-pulse
+                `}
+                />
+                
+            </div>
             {/* user info */}
             <div
                 className={`
@@ -25,7 +45,7 @@ export default function UserInfoTemplate({
                 <img
                     className={`
 					w-1/4 aspect-square max-h-[5rem] object-cover
-					rounded-full ring-4 ring-slate-900
+					rounded-full
 				`}
                     src={`${avatar}`}
                     alt={`avatar-${name}`}

@@ -1,8 +1,8 @@
 class IgUser {
     constructor() {
         this.id = '';
-        this.name = '';
-        this.avatarUrl = '';
+        this.name_id = '';
+        this.avatar_url = '';
         this.following = -1;
         this.followers = -1;
         this.posts = -1;
@@ -10,15 +10,15 @@ class IgUser {
 
     setInfo(
         id,
-        name,
-        avatarUrl,
+        name_id,
+        avatar_url,
         following,
         followers,
         posts
     ) {
         this.id = id;
-        this.name = name;
-        this.avatarUrl = avatarUrl;
+        this.name_id = name_id;
+        this.avatar_url = avatar_url;
         this.following = following;
         this.followers = followers;
         this.posts = posts;

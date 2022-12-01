@@ -78,6 +78,7 @@ function TiktokCard({ className, tiktokId }) {
                             value: user.likes,
                         },
                     ]}
+                    profile_url={`https://www.tiktok.com/@${user.name_id}`}
                 />
             )}
         </Card>
