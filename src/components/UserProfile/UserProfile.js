@@ -49,7 +49,7 @@ function UserProfile() {
                         resData['Họ và tên'],
                         resData['Ảnh nền'],
                         resData['Tài khoản instagram'],
-                        resData['Tài khoản tiktok'],
+                        resData['Tài khoản tiktok (bỏ dấu @)'],
                         resData['Link facebook'],
                         resData[
                             'Link một bài hát từ soundcloud'
