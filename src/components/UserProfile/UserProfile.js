@@ -127,7 +127,7 @@ function UserProfile() {
 				`}
                             >
                                 <h2
-                                    className={`font-bold text-3xl text-transparent
+                                    className={`font-bold text-2xl text-transparent
 					bg-clip-text 
 					bg-gradient-to-r from-slate-200 to-slate-300
 					drop-shadow-lg
