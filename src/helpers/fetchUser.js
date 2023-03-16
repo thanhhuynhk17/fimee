@@ -1,4 +1,4 @@
-export async function fetchInfo(endpoint, param) {
+export async function getAsync(endpoint, param) {
     const url = `${endpoint}?${param.key}=${param.value}`;
 
     // fetch data

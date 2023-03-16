@@ -3,10 +3,10 @@ function Card({ style, className, children }) {
         <div
 			style = {style}
             className={`
-                relative rounded-lg 
+                relative
                 flex flex-col p-4
-                shadow-lg touch:shadow-xl
-                bg-slate-200 touch:bg-slate-300
+                shadow-md
+                bg-white touch:bg-slate-300
                 text-slate-900
                 ${className}
             `}
