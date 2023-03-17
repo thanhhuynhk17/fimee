@@ -22,12 +22,13 @@ function App() {
             app_key: process.env.REACT_APP_KEY,
             app_secret: process.env.REACT_APP_SECRET,
             auth_code: authCode,
-            grant_type: 'authorized_code'
+            grant_type: 'authorized_code',
         };
         const header = {
-
+            'Content-Type':'application/json',
+            'Access-Control-Allow-Origin':'*'
         };
-        const res = await http.getWithParams(ENDPOINT,params);
+        const res = await http.getWithParams(ENDPOINT, params, header);
         if (res === undefined){
             return;
         }
