@@ -11,7 +11,7 @@ const http = new HttpClient();
 function App() {
     const [searchParams, setSearchParams] = useSearchParams();
     const [authCode, setAuthCode] = useState();
-    const [token, setToken] = useState();
+    const [token, setToken] = useState(sessionStorage.getItem('access_token'));
 
     const handleShopAuth = async ()=>{
         if (!authCode) {
@@ -51,45 +51,56 @@ function App() {
     },[])
 
     useEffect(()=>{
-        if (!token) {
+        if (token === null) {
             console.log('no token');
             return;
         }
-        console.log(token);
         // save token
-        localStorage.setItem('access_token', token);
+        sessionStorage.setItem('access_token', token);
     },[token])
 
     return (
         <Layout
             className={`
-            bg-[conic-gradient(at_bottom_right,_var(--tw-gradient-stops))] from-sky-400 to-indigo-900
-            container md:px-40 h-screen text-white bg-blend-normal
+                h-screen w-screen overflow-hidden overflow-y-auto
+                scroll-smooth hover:scroll-auto
+                bg-gray-200/50
             `}
         >
             {/* Navbar */}
-            <div className='pb-20'></div>
-
-            {/* Authorization */}
-            {
-                !token && (
-                    <Card>
-                        <button 
-                            className={`bg-white hover:bg-gray-100 
-                            text-gray-800 font-semibold py-2 px-4 border border-gray-200 rounded shadow`}
-                            onClick={handleShopAuth}
-                            >
-                            Get Authorization
-                        </button>
-                    </Card>
-                )
-            }
-
+            <div 
+                className={`
+                    h-16 w-full shadow-md
+                    bg-gradient-to-r from-purple-800 via-violet-900 to-purple-800
+                `}
+            ></div>
 
             {/* Contents */}
-            <div className='mt-2'>
+            <div className={`
+                flex-1 overflow-hidden
+                px-4 md:px-40 lg:px-80 text-white bg-blend-normal
+                py-10
+            `}>
+                {/* Authorization */}
+                {
+                    token === null && (
+                        <Card className={'items-center justify-center'}>
+                            <button 
+                                className={`bg-white hover:bg-gray-100 
+                                font-semibold py-2 px-4 
+                                border border-gray-200 rounded shadow-sm
+                                w-full md:w-60
+                                `}
+                                onClick={handleShopAuth}
+                                >
+                                Get Authorization
+                            </button>
+                        </Card>
+                    )
+                }
+
                 <Routes>
-                    <Route path="/" element={<Order />} />
+                    <Route path="/" element={<Order token={token} />} />
                     <Route path="/card" element={<Card />} />
                 </Routes>
             </div>

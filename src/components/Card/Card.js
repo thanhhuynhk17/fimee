@@ -3,11 +3,11 @@ function Card({ style, className, children }) {
         <div
 			style = {style}
             className={`
-                relative
+                relative h-full w-full
                 flex flex-col p-4
-                shadow-md
+                shadow-sm rounded-lg
                 bg-white touch:bg-slate-300
-                text-slate-900
+                text-gray-600 my-2
                 ${className}
             `}
         >

@@ -1,17 +1,17 @@
 // Replace secret with your own
-var secret = "8rt3d3a-9e8-7633-0045ec-62bad0gere"
+let secret = process.env.REACT_APP_SECRET
 
 function objKeySort(obj) {
-    var newKey = Object.keys(obj).sort()
-    var newObj = {}
-    for (var i = 0; i < newKey.length; i++) {
+    let newKey = Object.keys(obj).sort()
+    let newObj = {}
+    for (let i = 0; i < newKey.length; i++) {
         newObj[newKey[i]] = obj[newKey[i]]
     }
     return newObj
 }
 
 function getEnvVar(k) {
-    var v = pm.variables.get(k)
+    let v = pm.variables.get(k)
     if (v != null) {
         return v
     }
@@ -26,18 +26,18 @@ function getEnvVar(k) {
     return null
 }
 
-var ts = Date.parse(new Date()) / 1000
+let ts = Date.parse(new Date()) / 1000
 pm.variables.set("timestamp", ts)
 
 calSign = function(secret) {
-    var ts = getEnvVar("timestamp")
-    var queryParam = pm.request.url.query.members
-    var param = {}
-    for (var item in queryParam) {
+    let ts = getEnvVar("timestamp")
+    let queryParam = pm.request.url.query.members
+    let param = {}
+    for (let item in queryParam) {
         if (queryParam[item].key == "timestamp") {
             v = ts
         } else {
-            var v = queryParam[item].value
+            let v = queryParam[item].value
             if (v == null || v == "{{" + queryParam[item].key + "}}") {
                 v = getEnvVar(queryParam[item].key)
             }
@@ -47,9 +47,9 @@ calSign = function(secret) {
 
     delete param["sign"];
     delete param["access_token"]
-    var sortedObj = objKeySort(param)
-    var signstring = secret + pm.request.url.getPath()
-    for (var key in sortedObj) {
+    let sortedObj = objKeySort(param)
+    let signstring = secret + pm.request.url.getPath()
+    for (let key in sortedObj) {
         signstring = signstring + key + sortedObj[key]
     }
     signstring = signstring + secret
@@ -58,4 +58,4 @@ calSign = function(secret) {
     return sign
 }
 
-var sign = calSign(secret)
+let sign = calSign(secret)
