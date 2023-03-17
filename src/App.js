@@ -11,7 +11,9 @@ const http = new HttpClient();
 function App() {
     const [searchParams, setSearchParams] = useSearchParams();
     const [authCode, setAuthCode] = useState();
-    const handleShopAuth = ()=>{
+    const [token, setToken] = useState();
+
+    const handleShopAuth = async ()=>{
         if (!authCode) {
             console.log('auth code null');
             return;
@@ -28,22 +30,35 @@ function App() {
             'Content-Type':'application/json',
             'Access-Control-Allow-Origin':'*'
         };
-        http.getWithParams(ENDPOINT, params)
-            .then((res)=>{
-                console.log(res);
-            });
-
+        const res = await http.getWithParams(ENDPOINT, params);
+        if (!res) {
+            console.log('no respone');
+            return;
+        }
+        if (res.code!==0) {
+            console.log('invalid respone');
+            return;
+        }
+        console.log(res);
+        setToken(res.data.access_token);
     }
 
     useEffect(()=>{
         if (searchParams.get('code')) {
             setAuthCode(searchParams.get('code'));
+            return;
         }
     },[])
 
     useEffect(()=>{
-        console.log('authCode', authCode);
-    },[authCode])
+        if (!token) {
+            console.log('no token');
+            return;
+        }
+        console.log(token);
+        // save token
+        localStorage.setItem('access_token', token);
+    },[token])
 
     return (
         <Layout
@@ -56,15 +71,20 @@ function App() {
             <div className='pb-20'></div>
 
             {/* Authorization */}
-            <Card>
-                <button 
-                    className={`bg-white hover:bg-gray-100 
-                    text-gray-800 font-semibold py-2 px-4 border border-gray-200 rounded shadow`}
-                    onClick={handleShopAuth}
-                    >
-                    Get Authorization
-                </button>
-            </Card>
+            {
+                !token && (
+                    <Card>
+                        <button 
+                            className={`bg-white hover:bg-gray-100 
+                            text-gray-800 font-semibold py-2 px-4 border border-gray-200 rounded shadow`}
+                            onClick={handleShopAuth}
+                            >
+                            Get Authorization
+                        </button>
+                    </Card>
+                )
+            }
+
 
             {/* Contents */}
             <div className='mt-2'>
