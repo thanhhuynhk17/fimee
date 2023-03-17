@@ -3,7 +3,7 @@ import { Routes, Route, useSearchParams } from 'react-router-dom';
 import Order from './components/Order/Order';
 import Layout from './components/Layout/Layout';
 import Card from './components/Card/Card';
-import { API_URL, OAUTH_URL } from './helpers/constants';
+import { PREFIX, API_URL, OAUTH_URL } from './helpers/constants';
 import HttpClient from './helpers/http.helper';
 
 const http = new HttpClient();
@@ -11,12 +11,12 @@ const http = new HttpClient();
 function App() {
     const [searchParams, setSearchParams] = useSearchParams();
     const [authCode, setAuthCode] = useState();
-    const handleShopAuth = async ()=>{
+    const handleShopAuth = ()=>{
         if (!authCode) {
             console.log('auth code null');
             return;
         }
-        const ENDPOINT = `${OAUTH_URL}/api/v2/token/get`;
+        const ENDPOINT = `${PREFIX}/${OAUTH_URL}/api/v2/token/get`;
         console.log(process.env.REACT_APP_SERVICE_ID);
         const params= {
             app_key: process.env.REACT_APP_KEY,
@@ -28,11 +28,11 @@ function App() {
             'Content-Type':'application/json',
             'Access-Control-Allow-Origin':'*'
         };
-        const res = await http.getWithParams(ENDPOINT, params, header);
-        if (res === undefined){
-            return;
-        }
-        console.log(res);
+        http.getWithParams(ENDPOINT, params)
+            .then((res)=>{
+                console.log(res);
+            });
+
     }
 
     useEffect(()=>{
