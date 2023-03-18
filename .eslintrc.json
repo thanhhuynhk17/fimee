@@ -1,0 +1,29 @@
+{
+	"env": {
+		"browser": true,
+		"commonjs": true,
+		"node": true
+	},
+	"extends": [
+		"plugin:react/recommended",
+		"eslint:recommended"
+	],
+	"overrides": [],
+	"parserOptions": {
+		"ecmaVersion": 2020,
+		"sourceType": "module"
+	},
+	"plugins": [
+		"react"
+	],
+	"rules": {
+		"indent": [
+			"warn",
+			"tab"
+		],
+		"no-unused-vars": "warn",
+		"semi": "warn",
+		"react/react-in-jsx-scope": "off",
+		"react/prop-types": "off"
+	}
+}
