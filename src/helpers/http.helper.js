@@ -70,6 +70,32 @@ export default class HttpClient
             .then(cb)
             .catch(console.log);
     }
+    postWithParams(url, params, data, header, cb = undefined)
+    {
+        let qs = '';
+        if (params)
+        {
+            const esc = encodeURIComponent;
+            qs = Object.keys(params).map(k => esc(k) + '=' + esc(params[k])).join('&');
+            if (qs)
+            {
+                qs = '?' + qs;
+            }
+        }
+
+        return fetch(url+qs, {
+            method: 'POST',
+            headers: new Headers(header || {
+                'Content-Type': 'application/json',
+            }),
+            body: JSON.stringify(data),
+        })
+            .then(this.checkStatus)
+            .then(this.parseJSON)
+            .then(this.checkError)
+            .then(cb)
+            .catch(console.log);
+    }
 
     postFileStream(url, data, header = undefined, cb = undefined)
     {

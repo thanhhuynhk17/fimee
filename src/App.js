@@ -19,16 +19,11 @@ function App() {
             return;
         }
         const ENDPOINT = `${PREFIX}/${OAUTH_URL}/api/v2/token/get`;
-        console.log(process.env.REACT_APP_SERVICE_ID);
         const params= {
             app_key: process.env.REACT_APP_KEY,
             app_secret: process.env.REACT_APP_SECRET,
             auth_code: authCode,
             grant_type: 'authorized_code',
-        };
-        const header = {
-            'Content-Type':'application/json',
-            'Access-Control-Allow-Origin':'*'
         };
         const res = await http.getWithParams(ENDPOINT, params);
         if (!res) {
@@ -84,18 +79,18 @@ function App() {
                 {/* Authorization */}
                 {
                     token === null && (
-                        <Card className={'items-center justify-center'}>
+                        <div className={'flex items-center justify-center'}>
                             <button 
                                 className={`bg-white hover:bg-gray-100 
                                 font-semibold py-2 px-4 
                                 border border-gray-200 rounded shadow-sm
-                                w-full md:w-60
+                                w-full md:w-max lg:w-60 text-gray-600
                                 `}
                                 onClick={handleShopAuth}
                                 >
                                 Get Authorization
                             </button>
-                        </Card>
+                        </div>
                     )
                 }
 
