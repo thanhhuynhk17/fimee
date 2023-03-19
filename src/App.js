@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react';
 import { Routes, Route, useSearchParams } from 'react-router-dom';
+import GlobalProvider from './context/GlobalProvider';
+
 import Order from './components/Order/Order';
 import Layout from './components/Layout/Layout';
 import Card from './components/Card/Card';
 import { PREFIX, API_URL, OAUTH_URL } from './helpers/constants';
 import HttpClient from './helpers/http.helper';
+import Alert from './components/Alert/Alert';
 
 const http = new HttpClient();
 
@@ -54,54 +57,49 @@ function App() {
 	}, [token]);
 
 	return (
-		<Layout
-			className={`
-			h-screen w-screen overflow-hidden overflow-y-auto
-			scroll-smooth hover:scroll-auto
-			bg-gray-200/50
-            `}
-		>
-			{/* Navbar */}
-			<div
-				className={`
+		<GlobalProvider>
+			<Layout>
+				{/* Navbar */}
+				<div
+					className={`
 				h-16 w-full shadow-md
 				bg-gradient-to-r from-purple-800 via-violet-900 to-purple-800
 				`}
-			/>
+				/>
 
-			{/* Contents */}
-			<div
-				className={`
+				{/* Contents */}
+				<div
+					className={`
 				flex-1 overflow-hidden
 				px-4 md:px-40 lg:px-80 text-white bg-blend-normal
 				py-10
 				`}
-			>
-				{/* Authorization */}
-				{
-					token === null && (
-						<div className="flex items-center justify-center">
-							<button
-								className={`bg-white hover:bg-gray-100 
-								font-semibold py-2 px-4 
+				>
+					{/* Authorization */}
+					{
+						token === null && (
+							<div className="flex items-center justify-center pb-2">
+								<button
+									className={`bg-white hover:bg-gray-100 
+								font-semibold py-2 px-4
 								border border-gray-200 rounded shadow-sm
 								w-full md:w-60 text-gray-600
 								`}
-								onClick={handleShopAuth}
-							>
-								Get Authorization
-							</button>
-						</div>
-					)
-				}
-
-				<Routes>
-					<Route path="/" element={<Order token={token} />} />
-					<Route path="/card" element={<Card />} />
-				</Routes>
-			</div>
-
-		</Layout>
+									onClick={handleShopAuth}
+								>
+									Get Authorization
+								</button>
+							</div>
+						)
+					}
+					<Alert />
+					<Routes>
+						<Route path="/" element={<Order token={token} />} />
+						<Route path="/card" element={<Card />} />
+					</Routes>
+				</div>
+			</Layout>
+		</GlobalProvider>
 	);
 }
 

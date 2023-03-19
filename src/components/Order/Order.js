@@ -14,7 +14,8 @@ function Order({ token }) {
 		}
 		// get order details
 		const getOrderDetails = async () => {
-			const ENDPOINT = `${PREFIX}/${API_URL}/api/orders/detail/query`;
+			const endpoint = 'api/orders/detail/query';
+			const url = `${PREFIX}/${API_URL}/${endpoint}`;
 			const data = {
 				order_id_list: ["577031439355185316"]
 			};
@@ -22,7 +23,7 @@ function Order({ token }) {
 				app_key: process.env.REACT_APP_KEY,
 				timestamp: Math.round(Date.now() / 1000),
 			};
-			const sign = calSign('/api/orders/detail/query', params);
+			const sign = calSign(endpoint, params);
 			params = {
 				...params,
 				sign: sign,
@@ -31,7 +32,7 @@ function Order({ token }) {
 			const header = {
 				'Content-Type': 'application/x-www-form-urlencoded',
 			};
-			const res = await http.postWithParams(ENDPOINT, params, data);
+			const res = await http.postWithParams(url, params, data);
 			console.log(res);
 
 		};
@@ -44,9 +45,11 @@ function Order({ token }) {
 		<div className="h-full ">
 			{
 				<Card
-					className={`md:rounded-sm h-max`}
+					className={`h-max`}
 				>
 					<p className="text-ellipsis hover:text-clip overflow-hidden">{token}</p>
+					{/* List order */}
+					
 				</Card>
 			}
 		</div>
