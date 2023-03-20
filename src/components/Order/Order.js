@@ -9,7 +9,7 @@ import { motion } from "framer-motion";
 
 import { globalContext } from './../../context/context';
 import { calcIncome } from '../../helpers/incomeHelper';
-import { SignAlgorithm } from "../../helpers/SignAlgorithm.js";
+import { SignAlgorithm } from "../../helpers/SignAlgorithm";
 
 const http = new HttpClient();
 const signCalculator = new SignAlgorithm();

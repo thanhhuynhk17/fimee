@@ -1,8 +1,8 @@
 {
 	"env": {
-		"browser": true,
-		"commonjs": true,
-		"node": true
+        "browser": true,
+        "es2022": true,
+        "node": true
 	},
 	"extends": [
 		"plugin:react/recommended",
@@ -10,7 +10,6 @@
 	],
 	"overrides": [],
 	"parserOptions": {
-		"ecmaVersion": 13,
 		"sourceType": "module"
 	},
 	"plugins": [
