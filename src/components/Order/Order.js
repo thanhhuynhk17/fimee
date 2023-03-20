@@ -9,10 +9,10 @@ import { motion } from "framer-motion";
 
 import { globalContext } from './../../context/context';
 import { calcIncome } from '../../helpers/incomeHelper';
-import { SignAlgorithm } from "../../helpers/SignAlgorithm";
+import { SignCalculator } from './../../helpers/SignAlgorithm';
 
 const http = new HttpClient();
-const signCalculator = new SignAlgorithm();
+const signCalculator = new SignCalculator();
 
 function Order() {
 	const { alert, setAlert } = useContext(globalContext);

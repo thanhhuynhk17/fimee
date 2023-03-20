@@ -1,6 +1,6 @@
 import * as CryptoJS from 'crypto-js';
 
-export class SignAlgorithm {
+export class SignCalculator {
 	#secret;
 
 	constructor() {
