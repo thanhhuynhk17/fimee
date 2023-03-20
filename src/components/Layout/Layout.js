@@ -6,7 +6,7 @@ function Layout({ className, children }) {
 			className={`
 			h-screen w-screen overflow-hidden overflow-y-auto
 			scroll-smooth hover:scroll-auto
-			bg-gray-200/50
+			bg-gray-200
 			`}
 		>
 			{children}

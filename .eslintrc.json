@@ -10,7 +10,7 @@
 	],
 	"overrides": [],
 	"parserOptions": {
-		"ecmaVersion": 2020,
+		"ecmaVersion": 13,
 		"sourceType": "module"
 	},
 	"plugins": [

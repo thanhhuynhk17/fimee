@@ -22,7 +22,6 @@ export default class HttpClient {
 				qs = '?' + qs;
 			}
 		}
-		console.log(url + qs);
 		return fetch(url + qs, {
 			method: 'GET',
 			headers: new Headers(header || {

@@ -1,26 +1,28 @@
 import * as CryptoJS from 'crypto-js';
 
-// Replace secret with your own
-let secret = process.env.REACT_APP_SECRET;
+export default class SignAlgorithm {
+	#secret;
 
-function objKeySort(obj) {
-	let newKey = Object.keys(obj).sort();
-	let newObj = {};
-	for (let i = 0; i < newKey.length; i++) {
-		newObj[newKey[i]] = obj[newKey[i]];
+	constructor() {
+		this.#secret = process.env.REACT_APP_SECRET;
 	}
-	return newObj;
+	objKeySort(obj) {
+		let newKey = Object.keys(obj).sort();
+		let newObj = {};
+		for (let i = 0; i < newKey.length; i++) {
+			newObj[newKey[i]] = obj[newKey[i]];
+		}
+		return newObj;
+	}
+
+	calcSignature(endpoint, params) {
+		let sortedObj = this.objKeySort(params);
+		let signstring = `${this.#secret}/${endpoint}`;
+		for (let key in sortedObj) {
+			signstring = signstring + key + sortedObj[key];
+		}
+		signstring = signstring + this.#secret;
+		const sign = CryptoJS.HmacSHA256(signstring, this.#secret).toString();
+		return sign;
+	}
 }
-
-export const calSign = function (endpoint, params) {
-
-	let sortedObj = objKeySort(params);
-	let signstring = `${secret}/${endpoint}`;
-	for (let key in sortedObj) {
-		signstring = signstring + key + sortedObj[key];
-	}
-	signstring = signstring + secret;
-	console.log(signstring);
-	const sign = CryptoJS.HmacSHA256(signstring, secret).toString();
-	return sign;
-};
