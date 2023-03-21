@@ -28,6 +28,8 @@ function Settlement() {
 
 	useEffect(() => {
 		if (dateRange.startDate === null || dateRange.endDate === null) {
+			setSettls([]);
+			setOrders({});
 			console.log('No date');
 			return;
 		}
@@ -50,13 +52,21 @@ function Settlement() {
 				request_time_to: new Date(dateRange.endDate).getTime() / 1000,
 				page_size: 50
 			};
-			console.log(data);
 			const res = await http.postWithParams(url, params, data);
-			console.log(res);
 			if (res.code !== 0) {
 				setAlert({
 					msg: res.message,
 					type: "error",
+					visible: true
+				});
+				return;
+			}
+			if (res.data.settlement_list === undefined) {
+				setSettls([]);
+				setOrders({});
+				setAlert({
+					msg: 'Empty data.',
+					type: "info",
 					visible: true
 				});
 				return;
@@ -143,22 +153,22 @@ function Settlement() {
 			/>
 			{settls.length !== 0 && Object.keys(orders).length !== 0 && (
 				<div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-4">
-					<table className="table-auto w-full text-sm text-left text-gray-500 dark:text-gray-400">
+					<table className="table-auto w-full text-sm text-center text-gray-500 dark:text-gray-400 p-2">
 						<thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
 							<tr>
-								<th scope="col" className="px-6 py-3">
+								<th scope="col" className="py-3">
 									Order ID
 								</th>
-								<th scope="col" className="px-6 py-3">
+								<th scope="col" className="py-3">
 									Date
 								</th>
-								<th scope="col" className="px-6 py-3">
+								<th scope="col" className="py-3">
 									Original Price (VND)
 								</th>
-								<th scope="col" className="px-6 py-3">
+								<th scope="col" className="py-3">
 									Settlement Amount (VND)
 								</th>
-								<th scope="col" className="px-6 py-3">
+								<th scope="col" className="py-3">
 									Income (VND)
 								</th>
 								{/* <th scope="col" className="px-6 py-3">
@@ -169,19 +179,19 @@ function Settlement() {
 						<tbody>
 							{settls.map((item) => (
 								<tr key={item.order_id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-									<th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+									<th scope="row" className="py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
 										{item.order_id}
 									</th>
-									<td className="px-6 py-4">
+									<td className="py-4">
 										{item.settlement_time}
 									</td>
-									<td className="px-6 py-4">
+									<td className="py-4">
 										{orders[item.order_id]}
 									</td>
-									<td className="px-6 py-4">
+									<td className="py-4">
 										{item.settlement_amount}
 									</td>
-									<td className="px-6 py-4">
+									<td className="py-4">
 										{item.settlement_amount - orders[item.order_id]}
 									</td>
 									{/* <td className="px-6 py-4 text-right">
