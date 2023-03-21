@@ -24,7 +24,7 @@ function Alert({ msg, type, visible }) {
 	return localVisible && visible && (
 		<div
 			className={`
-			fixed bottom-4 right-4
+			fixed bottom-4 right-4 z-50
 			md:bottom-10 md:right-10
 			p-4 mb-4 text-sm rounded-lg shadow-sm
 			flex items-center justify-start 

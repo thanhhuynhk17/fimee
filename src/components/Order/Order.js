@@ -1,13 +1,11 @@
 import { useState, useEffect, useContext } from "react";
-import { useSearchParams } from "react-router-dom";
 
 import Card from "../Card/Card";
 import HttpClient from "../../helpers/http.helper";
 import { API_URL, PREFIX, OAUTH_URL } from "../../helpers/constants";
-import Alert from './../Alert/Alert';
 import { motion } from "framer-motion";
 
-import { globalContext } from './../../context/context';
+import { globalContext } from "../context/context";
 import { calcIncome } from '../../helpers/incomeHelper';
 import { SignCalculator } from '../../helpers/signAlgorithm';
 
@@ -15,82 +13,16 @@ const http = new HttpClient();
 const signCalculator = new SignCalculator();
 
 function Order() {
-	const { alert, setAlert } = useContext(globalContext);
-
-	const [orders, setOrders] = useState([]);
-	const [searchParams] = useSearchParams();
-	const [authCode, setAuthCode] = useState();
-	const [token, setToken] = useState(sessionStorage.getItem('access_token'));
-
-	useEffect(() => {
-		if (searchParams.get('code')) {
-			setAuthCode(searchParams.get('code'));
-		}
-	}, []);
-
-	// get token
-	useEffect(() => {
-		if (token) {
-			console.log('Token already exists.'); // from session storage
-			return;
-		}
-		if (authCode === null || authCode === undefined) {
-			setAlert({
-				msg: "Click 'Authorization' button.",
-				type: "info",
-				visible: true
-			});
-			return;
-		}
-		const handleShopAuth = async () => {
-			const ENDPOINT = `${PREFIX}/${OAUTH_URL}/api/v2/token/get`;
-			const params = {
-				app_key: process.env.REACT_APP_KEY,
-				app_secret: process.env.REACT_APP_SECRET,
-				auth_code: authCode,
-				grant_type: 'authorized_code',
-			};
-			const res = await http.getWithParams(ENDPOINT, params);
-			console.log(res);
-			if (!res) {
-				console.log('no respone');
-				return;
-			}
-			if (res.code === 36004004) {
-				console.log('invalid auth code');
-				setAlert({
-					msg: "Invalid auth code! Click `Authorization` button again.",
-					type: "error",
-					visible: true
-				});
-				return;
-			}
-			if (res.code !== 0) {
-				console.log('invalid respone');
-				return;
-			}
-			setAlert({
-				msg: "Authorization successful",
-				type: "success",
-				visible: true
-			});
-			setToken(res.data.access_token);
-		};
-		handleShopAuth();
-	}, [authCode]);
-
-	// store token
-	useEffect(() => {
-		if (token === null || token === undefined) {
-			console.log('no token');
-			return;
-		}
-		sessionStorage.setItem('access_token', token);
-	}, [token]);
+	const {
+		setAlert,
+		token,
+		settls,
+		orders, setOrders
+	} = useContext(globalContext);
 
 	// get order detail -> calculate income
 	useEffect(() => {
-		if (token === null) {
+		if (token === null || token === undefined) {
 			return;
 		}
 		// get order details
@@ -137,11 +69,10 @@ function Order() {
 		// call async function
 		getOrderDetails();
 
-	}, [token]);
+	}, [settls]);
 
 	return (
 		<div className="h-full">
-			<Alert msg={alert.msg} type={alert.type} visible={alert.visible} />
 			{
 				orders.length === 0 ? ( // skeleton loading
 					<Card
