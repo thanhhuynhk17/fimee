@@ -100,11 +100,6 @@ function GlobalProvider({ children }) {
 	// store token
 	useEffect(() => {
 		if (token === null || token === undefined) {
-			setAlert({
-				msg: "Click 'Authorization' button first.",
-				type: "error",
-				visible: true
-			});
 			console.log('no token');
 			return;
 		}
