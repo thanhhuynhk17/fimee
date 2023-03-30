@@ -1,17 +1,52 @@
-import { useContext } from 'react';
+import { useEffect, useContext } from 'react';
 import { globalContext } from './components/context/context';
 import { Routes, Route } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Papa from 'papaparse';
 
-import Order from './components/Order/Order';
 import Layout from './components/Layout/Layout';
 import Settlement from './components/Settlement/Settlement';
-import Alert from './components/Alert/Alert';
+
 
 function App() {
-	const { alert } = useContext(globalContext);
+	const { setOriginPrice } = useContext(globalContext);
+
+	useEffect(() => {
+		// const reqUrl = `https://docs.google.com/spreadsheets/d/1mPhVlwlSfomfrOnC8EtGdsAmydrZAPc98Op5pePlNTE/gviz/tq?tqx=out:csv&tq=Select * where J='${userId}'`;
+		// get origin price
+		const reqUrl = `https://docs.google.com/spreadsheets/d/137-YXgfnhzX2__EHxHQ5EvQQVZHnG_ChACkmr0Y6Z1I/gviz/tq?tqx=out:csv`;
+		Papa.parse(reqUrl, {
+			download: true,
+			header: true,
+			complete: (results) => {
+				toast.success('Cập nhật dữ liệu giá gốc thành công.');
+				console.log(results.data.length);
+				let priceObj = {};
+				results.data.map(item => priceObj[item.ID] = parseInt(item['Giá gốc'].replace(/[^0-9,-]+/g, "")));
+				console.log('Gia goc', priceObj);
+				setOriginPrice(priceObj);
+			},
+			error: (error) => {
+				toast.error('Lỗi khi lấy dữ liệu giá gốc. Kiểm tra lại file Google Sheet!');
+			}
+		});
+	}, []);
+
 	return (
 		<Layout>
-			<Alert msg={alert.msg} type={alert.type} visible={alert.visible} />
+			<ToastContainer
+				position="bottom-right"
+				autoClose={2000}
+				hideProgressBar={false}
+				newestOnTop
+				closeOnClick
+				rtl={false}
+				pauseOnFocusLoss
+				draggable={false}
+				pauseOnHover
+				theme="light"
+			/>
 			{/* Navbar */}
 			{/* <div
 				className={`

@@ -1,5 +1,6 @@
 import { useState, useContext, useEffect } from 'react';
 import { globalContext } from '../context/context';
+import { toast } from 'react-toastify';
 
 import Datepicker from "react-tailwindcss-datepicker";
 
@@ -12,24 +13,31 @@ import { calcIncome } from './../../helpers/incomeHelper';
 const http = new HttpClient();
 const signCalculator = new SignCalculator();
 
+const currencyFormatVND = (price) => {
+	const config = { style: 'currency', currency: 'VND', maximumFractionDigits: 12 };
+	const formated = new Intl.NumberFormat('vi-VN', config).format(price);
+	return formated;
+};
+
 function Settlement() {
 	const {
+		originPrice,
 		dateRange, setDateRange,
 		token,
-		settls, setSettls,
-		setAlert,
-		orders, setOrders
+		incomeDetail, setIncomeDetail
 	} = useContext(globalContext);
 
+	const [isLoading, setIsLoading] = useState(false);
+
 	const handleValueChange = (newValue) => {
-		setSettls([]);
-		setOrders({});
+		setIncomeDetail([]);
 		console.log('newValue', newValue);
 		setDateRange(newValue);
 	};
 
 	useEffect(() => {
 		if (dateRange.startDate === null || dateRange.endDate === null) {
+			setIncomeDetail([]);
 			console.log('No date');
 			return;
 		}
@@ -41,7 +49,7 @@ function Settlement() {
 			endTs = new Date(dateRange.endDate).getTime() / 1000;
 		}
 		// get settlements 
-		const getSettlements = async () => {
+		const getSettls = async (getMore, cursor) => {
 			const endpoint = 'api/finance/settlements/search';
 			const url = `${PREFIX}/${API_URL}/${endpoint}`;
 			let params = {
@@ -59,57 +67,46 @@ function Settlement() {
 				request_time_to: endTs,
 				page_size: 50
 			};
+			if (getMore && cursor !== undefined) {
+				data.cursor = cursor;
+			}
+			console.log(startTs, endTs);
+
 			const res = await http.postWithParams(url, params, data);
-			if (res.code !== 0) {
-				setDateRange({
-					startDate: null,
-					endDate: null
-				});
-				setAlert({
-					msg: res.message,
-					type: "error",
-					visible: true
-				});
-				return;
+			if (res === undefined || res.code !== 0) {
+				toast.error(res.message);
+				return [false, undefined, undefined];
 			}
 			if (res.data.settlement_list === undefined) {
-				setSettls([]);
-				setOrders({});
-				setAlert({
-					msg: 'Empty data.',
-					type: "info",
-					visible: true
-				});
-				return;
+				toast.success('Không có dữ liệu.');
+				return [false, undefined, undefined];
 			}
-			setAlert({
-				msg: "Get settlements successful.",
-				type: "success",
-				visible: true
-			});
 
-			const res_list = res.data.settlement_list.map(item => {
+			const resListFilter = res.data.settlement_list.filter(item => {
+				const refund = parseInt(item.settlement_info.refund);
+				const userPay = parseInt(item.settlement_info.user_pay);
+				// console.log(item.order_id, 'userPay, refund', userPay, refund);
+				if (isNaN(userPay)) {
+					return false;
+				}
+				if (userPay !== refund) {
+					return item;
+				}
+			});
+			const resList = resListFilter.map(item => {
 				return {
 					order_id: item.order_id,
 					settlement_amount: parseInt(item.settlement_info.settlement_amount),
 					settlement_time: new Date(parseInt(item.settlement_info.settlement_time + '000')).toLocaleDateString('en-GB')
 				};
 			});
-			setSettls(res_list);
-		};
-		getSettlements();
-	}, [dateRange]);
 
-	// get order detail -> calculate income
-	useEffect(() => {
-		if (token === null || token === undefined) {
-			return;
-		}
-		if (settls.length === 0) {
-			return;
-		}
+			return [res.data.more, res.data.next_cursor, resList];
+		};
 		// get order details
-		const getOrderDetails = async () => {
+		const getOrderDetails = async (settls) => {
+			let order_origin_price = undefined;
+
 			const endpoint = 'api/orders/detail/query';
 			const url = `${PREFIX}/${API_URL}/${endpoint}`;
 			const data = {
@@ -126,35 +123,67 @@ function Settlement() {
 				access_token: token
 			};
 			const res = await http.postWithParams(url, params, data);
-			if (res.code !== 0) {
-				setAlert({
-					msg: res.message,
-					type: "error",
-					visible: true
-				});
-				return;
+			if (res === undefined || res.code !== 0) {
+				toast.error(res.message);
+				return undefined;
 			}
-			setAlert({
-				msg: "Get order details successful.",
-				type: "success",
-				visible: true
-			});
-			let order_origin_price = {};
+			if (res.data.order_list === undefined) {
+				toast.success('Không tìm thấy chi tiết của order.');
+			}
+			// success
+			order_origin_price = {};
 			res.data.order_list.map(detail => {
-				order_origin_price[detail.order_id] = calcIncome(detail.item_list);
+				order_origin_price[detail.order_id] = calcIncome(originPrice,detail.item_list);
 			});
-			setOrders(order_origin_price);
-		};
-		// call async function
-		getOrderDetails();
 
-	}, [settls]);
+			return order_origin_price;
+		};
+
+		const getIncomeDetail = async () => {
+			setIsLoading(true);
+
+			let [getMore, cursor] = [true, undefined];
+			while (getMore) {
+				let settls = undefined;
+				console.log('while...');
+				[getMore, cursor, settls] = await getSettls(getMore, cursor);
+				if (settls === undefined) {
+
+					break;
+				}
+				let orders = await getOrderDetails(settls);
+				if (orders === undefined) {
+
+					break;
+				}
+				toast.success('Lấy dữ liệu thành công.');
+				const incomePart = settls.map(item => {
+					return {
+						...item,
+						origin_price: orders[item.order_id]
+					};
+				});
+				setIncomeDetail(prev => {
+					if (prev.length === 0) {
+						return incomePart;
+					}
+					return [...prev, ...incomePart];
+				});
+			}
+			toast.info('Kết thúc.');
+			console.log('end while...');
+			setIsLoading(false);
+		};
+		getIncomeDetail();
+
+	}, [dateRange]);
+
 
 	return (
 		<div className='h-max'>
 			<h1 className="mb-4 text-3xl font-extrabold text-gray-700 md:text-5xl lg:text-6xl">AutoIncome</h1>
 			<Datepicker
-				disabled={dateRange.startDate !== null && Object.keys(orders).length === 0}
+				disabled={isLoading}
 				inputClassName={`font-medium`}
 				value={dateRange}
 				onChange={handleValueChange}
@@ -163,8 +192,8 @@ function Settlement() {
 				separator={"to"}
 				displayFormat={"DD/MM/YYYY"}
 			/>
-			{settls.length === 0 || Object.keys(orders).length === 0 ?
-				dateRange.startDate !== null && (
+			{incomeDetail.length === 0 ?
+				isLoading && (
 					<div role="status" className='flex items-center justify-center mt-5'>
 						<svg aria-hidden="true" className="w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
 							<path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor" />
@@ -174,24 +203,37 @@ function Settlement() {
 					</div>
 				)
 				: (
-					<div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-4">
-						<table className="table-auto w-full text-sm text-center text-gray-500 dark:text-gray-400 p-2">
+					<div className="relative overflow-x-auto sm:rounded-lg mt-4">
+						<div className='flex items-center justify-between py-2'>
+							<h3 className="text-lg font-bold text-gray-700">Số lượng đơn: {incomeDetail.length}</h3>
+							<h3 className="text-lg font-bold text-gray-700">
+								Tổng doanh thu: {currencyFormatVND(
+									incomeDetail.reduce((total, item) => {
+										if (isNaN(item.origin_price)) {
+											return total;
+										}
+										return total + (item.settlement_amount - item.origin_price);
+									}, 0)
+								)}
+							</h3>
+						</div>
+						<table className="w-full shadow-md text-sm text-right text-gray-500 dark:text-gray-400 p-10">
 							<thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
 								<tr>
-									<th scope="col" className="py-3">
+									<th scope="col" className="py-3 pl-4 text-left">
 										Order ID
 									</th>
 									<th scope="col" className="py-3">
-										Date
+										Thời gian
 									</th>
 									<th scope="col" className="py-3">
-										Original Price (VND)
+										Giá gốc
 									</th>
 									<th scope="col" className="py-3">
-										Settlement Amount (VND)
+										Giá bán
 									</th>
-									<th scope="col" className="py-3">
-										Income (VND)
+									<th scope="col" className="py-3 pr-4">
+										Doanh thu
 									</th>
 									{/* <th scope="col" className="px-6 py-3">
 								<span className="sr-only">Edit</span>
@@ -199,22 +241,25 @@ function Settlement() {
 								</tr>
 							</thead>
 							<tbody>
-								{settls.map((item) => (
+								{incomeDetail.map((item) => (
 									<tr key={item.order_id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-										<th scope="row" className="py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+										<td scope="row" className="py-4 pl-4 text-left font-medium text-gray-900 whitespace-nowrap dark:text-white">
 											{item.order_id}
-										</th>
+										</td>
 										<td className="py-4">
 											{item.settlement_time}
 										</td>
 										<td className="py-4">
-											{orders[item.order_id]}
+											{isNaN(item.origin_price) ? 'NaN' :
+												currencyFormatVND(item.origin_price)}
 										</td>
 										<td className="py-4">
-											{item.settlement_amount}
+											{isNaN(item.settlement_amount) ? 'NaN' :
+												currencyFormatVND(item.settlement_amount)}
 										</td>
-										<td className="py-4">
-											{item.settlement_amount - orders[item.order_id]}
+										<td className="py-4 pr-4">
+											{isNaN(item.origin_price) ? 'NaN' :
+												currencyFormatVND(item.settlement_amount - item.origin_price)}
 										</td>
 										{/* <td className="px-6 py-4 text-right">
 								<a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>

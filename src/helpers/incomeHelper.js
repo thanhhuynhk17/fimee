@@ -1,8 +1,7 @@
-import { PRODUCTS_PRICE } from "./constants";
 
-export const calcIncome = (products) => {
+export const calcIncome = (originPrice ,products) => {
 	const total_origin_price = products.reduce((total, product) => {
-		const origin_price = PRODUCTS_PRICE[product.product_id] * product.quantity;
+		const origin_price = originPrice[product.product_id] * product.quantity;
 		return total + origin_price;
 	}, 0);
 

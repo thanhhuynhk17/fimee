@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
+import { toast } from 'react-toastify';
 
 import { globalContext } from "./context";
 import { PREFIX, OAUTH_URL } from './../../helpers/constants';
@@ -8,11 +9,7 @@ import HttpClient from './../../helpers/http.helper';
 const http = new HttpClient();
 
 function GlobalProvider({ children }) {
-	const [alert, setAlert] = useState({
-		msg: "",
-		type: "",
-		visible: false
-	}); // info, warn, success
+	const [originPrice, setOriginPrice] = useState({});
 	const [searchParams] = useSearchParams();
 	const [authCode, setAuthCode] = useState();
 	const [token, setToken] = useState(sessionStorage.getItem('access_token'));
@@ -21,22 +18,8 @@ function GlobalProvider({ children }) {
 		startDate: null,
 		endDate: null
 	});
-	const [settls, setSettls] = useState([]);
-	const [orders, setOrders] = useState({});
 
-	useEffect(() => {
-		if (!alert.visible) {
-			return;
-		}
-		if (alert.visible) {
-			setTimeout(() => {
-				setAlert({
-					...alert,
-					visible: false
-				});
-			}, 3000);
-		}
-	}, [alert]);
+	const [incomeDetail, setIncomeDetail] = useState([]);
 
 
 	useEffect(() => {
@@ -53,11 +36,7 @@ function GlobalProvider({ children }) {
 		}
 		if (authCode === null || authCode === undefined) {
 			console.log('No auth code');
-			setAlert({
-				msg: "Click 'Authorization' button first.",
-				type: "info",
-				visible: true
-			});
+			toast.info("Ấn nút 'Authorization' để uỷ quyền dịch vụ");
 			return;
 		}
 		const handleShopAuth = async () => {
@@ -76,22 +55,14 @@ function GlobalProvider({ children }) {
 			}
 			if (res.code === 36004004) {
 				console.log('invalid auth code');
-				setAlert({
-					msg: "Invalid auth code! Click `Authorization` button again.",
-					type: "error",
-					visible: true
-				});
+				toast.error("Lỗi xác thực, ấn nút 'Authorization' để uỷ quyền mới.");
 				return;
 			}
 			if (res.code !== 0) {
 				console.log('invalid respone');
 				return;
 			}
-			setAlert({
-				msg: "Authorization successful",
-				type: "success",
-				visible: true
-			});
+			toast.success("Xác thực thành công!");
 			setToken(res.data.access_token);
 		};
 		handleShopAuth();
@@ -107,12 +78,11 @@ function GlobalProvider({ children }) {
 	}, [token]);
 
 	const providerValue = {
-		alert, setAlert,
 		authCode, setAuthCode,
 		token, setToken,
 		dateRange, setDateRange,
-		settls, setSettls,
-		orders, setOrders
+		incomeDetail, setIncomeDetail,
+		originPrice, setOriginPrice
 	};
 
 	return (
