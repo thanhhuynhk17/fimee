@@ -262,7 +262,7 @@ function Settlement() {
 										</td>
 										<td className="py-4">
 											{isNaN(item.settlement_amount) ? 'NaN' :
-												0.015*currencyFormatVND(item.settlement_amount)}
+												currencyFormatVND(item.settlement_amount*0.015)}
 										</td>
 										<td className="py-4 pr-4">
 											{isNaN(item.origin_price) ? 'NaN' :
