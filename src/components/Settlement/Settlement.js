@@ -217,6 +217,18 @@ function Settlement() {
 								)}
 							</h3>
 						</div>
+						<div className='flex items-center justify-end py-2'>
+							<h3 className="text-lg font-bold text-gray-700">
+								Tổng VAT: {currencyFormatVND(
+									incomeDetail.reduce((total, item) => {
+										if (isNaN(item.origin_price)) {
+											return total;
+										}
+										return total + (item.settlement_amount - item.origin_price);
+									}, 0)*0.015
+								)}
+							</h3>
+						</div>
 						<table className="w-full shadow-md text-sm text-right text-gray-500 dark:text-gray-400 p-10">
 							<thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
 								<tr>
