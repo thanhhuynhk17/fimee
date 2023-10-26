@@ -232,6 +232,9 @@ function Settlement() {
 									<th scope="col" className="py-3">
 										Giá bán
 									</th>
+									<th scope="col" className="py-3">
+										VAT 1.5%
+									</th>
 									<th scope="col" className="py-3 pr-4">
 										Doanh thu
 									</th>
@@ -256,6 +259,10 @@ function Settlement() {
 										<td className="py-4">
 											{isNaN(item.settlement_amount) ? 'NaN' :
 												currencyFormatVND(item.settlement_amount)}
+										</td>
+										<td className="py-4">
+											{isNaN(item.settlement_amount) ? 'NaN' :
+												0.015*currencyFormatVND(item.settlement_amount)}
 										</td>
 										<td className="py-4 pr-4">
 											{isNaN(item.origin_price) ? 'NaN' :
