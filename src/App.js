@@ -8,14 +8,14 @@ import Papa from 'papaparse';
 import Layout from './components/Layout/Layout';
 import Settlement from './components/Settlement/Settlement';
 
-
+// https://partner.tiktokshop.com/
 function App() {
 	const { setOriginPrice } = useContext(globalContext);
 
 	useEffect(() => {
 		// const reqUrl = `https://docs.google.com/spreadsheets/d/1mPhVlwlSfomfrOnC8EtGdsAmydrZAPc98Op5pePlNTE/gviz/tq?tqx=out:csv&tq=Select * where J='${userId}'`;
 		// get origin price
-		const reqUrl = `https://docs.google.com/spreadsheets/d/137-YXgfnhzX2__EHxHQ5EvQQVZHnG_ChACkmr0Y6Z1I/gviz/tq?tqx=out:csv`;
+		const reqUrl = `https://docs.google.com/spreadsheets/d/12vYVDteIzVDDfmHqU2ftQHNtBkwbmqRG8I2YAXeKTuQ/gviz/tq?tqx=out:csv`;
 		Papa.parse(reqUrl, {
 			download: true,
 			header: true,
@@ -23,8 +23,8 @@ function App() {
 				toast.success('Cập nhật dữ liệu giá gốc thành công.');
 				console.log(results.data.length);
 				let priceObj = {};
-				results.data.map(item => priceObj[item.ID] = parseInt(item['Giá gốc'].replace(/[^0-9,-]+/g, "")));
-				console.log('Gia goc', priceObj);
+				results.data.map(item => priceObj[item['ID SẢN PHẨM']] = parseInt(item['GIÁ GỐC'].replace(/[^0-9,-]+/g, "")));
+				console.log('Gia goc', results);
 				setOriginPrice(priceObj);
 			},
 			error: (error) => {
