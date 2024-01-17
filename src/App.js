@@ -8,7 +8,7 @@ import Papa from 'papaparse';
 import Layout from './components/Layout/Layout';
 import Settlement from './components/Settlement/Settlement';
 
-// https://partner.tiktokshop.com/
+// https://partner.tiktokshop.com
 function App() {
 	const { setOriginPrice } = useContext(globalContext);
 
